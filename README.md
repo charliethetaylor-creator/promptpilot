@@ -6,23 +6,18 @@ PromptPilot adds a floating optimize bubble beside prompt composers on ChatGPT, 
 
 `/Users/charlietaylor/Documents/PromptPilot-Optimizer`
 
-## Load Unpacked
+## setup
 
 1. Open `chrome://extensions`.
 2. Enable **Developer mode**.
 3. Click **Load unpacked**.
 4. Select `PromptPilot-Optimizer`.
 
-## Setup (Built-In Key)
-
-1. Open [background.js](/Users/charlietaylor/Documents/PromptPilot-Optimizer/background.js#L5).
-2. Set `BUILT_IN_NVIDIA_API_KEY` to your NVIDIA key.
-3. Reload the extension in `chrome://extensions`.
-
 ## Popup Controls
 
 - The extension popup now provides a **Fast Mode** toggle (logo color scheme UI).
 - Fast Mode is stored in `chrome.storage.local` and applies to all optimizations.
+- developers note - the fast mode rarely works right now so there is little point in using it at the moment
 
 ## Fast Mode Behavior
 
