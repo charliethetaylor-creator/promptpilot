@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PromptPilot Optimizer</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg-1: #020b1f;
+        --bg-2: #04142e;
+        --panel: rgba(8, 26, 56, 0.74);
+        --panel-border: rgba(173, 216, 255, 0.18);
+        --text: #e8f3ff;
+        --muted: #9ec2e8;
+        --accent: #16a3ff;
+        --accent-2: #52c4ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        width: 340px;
+        min-height: 220px;
+        font-family: "Segoe UI", "SF Pro Text", Arial, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 8% 12%, rgba(45, 137, 255, 0.38), transparent 42%),
+          radial-gradient(circle at 88% 88%, rgba(20, 94, 204, 0.42), transparent 48%),
+          linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      }
+
+      .wrap {
+        padding: 14px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .brand-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        background: rgba(7, 19, 40, 0.45) url("icons/bubble-32.png") center/contain no-repeat;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+      }
+
+      .brand-title {
+        margin: 0;
+        font-size: 15px;
+        letter-spacing: 0.2px;
+      }
+
+      .brand-sub {
+        margin: 2px 0 0;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 12px;
+        padding: 12px;
+        backdrop-filter: blur(6px);
+      }
+
+      .toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .toggle-title {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .toggle-desc {
+        margin: 4px 0 0;
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 21px;
+        flex: 0 0 auto;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background: rgba(122, 154, 190, 0.38);
+        border: 1px solid rgba(171, 198, 228, 0.45);
+        transition: 0.2s ease;
+        border-radius: 999px;
+      }
+
+      .slider:before {
+        content: "";
+        position: absolute;
+        height: 15px;
+        width: 15px;
+        left: 2px;
+        top: 2px;
+        background: #ffffff;
+        border-radius: 50%;
+        transition: 0.2s ease;
+      }
+
+      .switch input:checked + .slider {
+        background: linear-gradient(145deg, var(--accent), var(--accent-2));
+        border-color: rgba(149, 222, 255, 0.9);
+      }
+
+      .switch input:checked + .slider:before {
+        transform: translateX(15px);
+      }
+
+      .status {
+        margin: 12px 0 0;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 11px;
+        line-height: 1.35;
+        color: #d6eaff;
+        background: rgba(3, 16, 36, 0.56);
+        border: 1px solid rgba(124, 171, 221, 0.24);
+      }
+
+      .status strong {
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true"></div>
+        <div>
+          <h1 class="brand-title">PromptPilot Optimizer</h1>
+          <p class="brand-sub">Kimi 2.5 Prompt Rewriter</p>
+        </div>
+      </div>
+
+      <section class="panel">
+        <div class="toggle-row">
+          <div class="toggle-title">Fast Mode</div>
+          <label class="switch" aria-label="Toggle fast mode">
+            <input id="fastModeToggle" type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <p class="toggle-desc">Uses lower token output, shorter rewrite instructions, lighter context, faster timeout, and short-term repeat cache.</p>
+      </section>
+
+      <p id="status" class="status">Loading settings...</p>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
