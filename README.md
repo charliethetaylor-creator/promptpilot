@@ -1,34 +1,36 @@
 # PromptPilot Optimizer (Chrome Extension, MV3)
 
-an ai made for ai. it takes your prompt used in chatbots on the web and optimises it to give the best result.
+PromptPilot adds a floating optimize bubble beside prompt composers on ChatGPT, Claude, and Gemini. It rewrites your draft through a Vercel proxy that forwards to NVIDIA Kimi 2.5.
 
-## what it can do 
+## Folder
 
+`/Users/charlietaylor/Documents/PromptPilot-Optimizer`
 
+## Deploy Proxy (Vercel)
 
-<img width="601" height="124" alt="Screenshot 2026-04-24 at 06 57 37" src="https://github.com/user-attachments/assets/cef86809-a847-4cd1-afa3-97ba6838c814" />
+1. Push this repo to GitHub.
+2. Create/import the project in Vercel.
+3. Ensure the serverless function exists at `api/proxy.js`.
+4. In Vercel project environment variables, set:
+   - `API_KEY` = your NVIDIA API key
+   - `EXTENSION_SECRET` = your private shared secret
+5. Deploy and copy your Vercel URL, for example: `https://your-vercel-project.vercel.app`.
 
+## Extension Setup
 
-<img width="195" height="262" alt="Screenshot 2026-04-24 at 07 02 01" src="https://github.com/user-attachments/assets/8b4bb877-d266-43a5-91b1-0d5acd54bcc8" />
-
-
-<img width="604" height="160" alt="Screenshot 2026-04-24 at 07 00 01" src="https://github.com/user-attachments/assets/1e91b40a-2639-42d9-9370-27bf773a28b5" />
-
-
-
-
-## setup
-
-1. Open `chrome://extensions`.
-2. Enable **Developer mode**.
-3. Click **Load unpacked**.
-4. Select `PromptPilot-Optimizer`.
+1. Open [background.js](/Users/charlietaylor/Documents/PromptPilot-Optimizer/background.js).
+2. Set:
+   - `VERCEL_PROXY_URL` to `https://your-vercel-project.vercel.app/api/proxy`
+   - `BUILT_IN_EXTENSION_SECRET` to the same value as Vercel `EXTENSION_SECRET`
+3. Open `chrome://extensions`.
+4. Enable **Developer mode**.
+5. Click **Load unpacked** and select `PromptPilot-Optimizer`.
+6. Reload the extension after changes.
 
 ## Popup Controls
 
-- The extension popup now provides a **Fast Mode** toggle (logo color scheme UI).
+- The extension popup provides a **Fast Mode** toggle.
 - Fast Mode is stored in `chrome.storage.local` and applies to all optimizations.
-- developers note - the fast mode rarely works right now so there is little point in using it at the moment
 
 ## Fast Mode Behavior
 
@@ -48,10 +50,16 @@ When enabled, PromptPilot applies speed-focused behavior:
 4. Wait for shimmer loading to finish.
 5. Your prompt is replaced with the optimized version.
 
+## Environment Example
+
+See `.env.example` for required proxy variables:
+
+- `API_KEY`
+- `EXTENSION_SECRET`
+
 ## Notes
 
 - Model: `moonshotai/kimi-k2.5`
-- Endpoint: `https://integrate.api.nvidia.com/v1/chat/completions`
-- Built-in key mode is convenient for local use but not secure for public distribution.
+- Proxy endpoint path: `/api/proxy`
 - If optimization fails, the original prompt remains unchanged.
-# promptpilot
+- Do not commit real secrets to GitHub.

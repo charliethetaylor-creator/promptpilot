@@ -1,8 +1,6 @@
 const MODEL = "moonshotai/kimi-k2.5";
-const API_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
-
-// Built-in key mode: paste your NVIDIA key here.
-const BUILT_IN_NVIDIA_API_KEY = "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";
+const VERCEL_PROXY_URL = "https://your-vercel-project.vercel.app/api/proxy";
+const BUILT_IN_EXTENSION_SECRET = "PASTE_YOUR_EXTENSION_SECRET_HERE";
 const STORAGE_FAST_MODE_KEY = "fastModeEnabled";
 
 const NORMAL_MODE_CONFIG = {
@@ -76,20 +74,18 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   return undefined;
 });
 
-function getBuiltInApiKey() {
-  const raw = (BUILT_IN_NVIDIA_API_KEY || "").trim();
+function getBuiltInExtensionSecret() {
+  const raw = (BUILT_IN_EXTENSION_SECRET || "").trim();
 
-  if (!raw || raw === "PASTE_YOUR_NVIDIA_API_KEY_HERE") {
+  if (!raw || raw === "PASTE_YOUR_EXTENSION_SECRET_HERE") {
     return "";
   }
 
-  // Accept accidental wrapper text and extract the real token.
-  const extracted = raw.match(/nvapi-[A-Za-z0-9_-]+/);
-  return extracted ? extracted[0] : raw;
+  return raw;
 }
 
-function isLikelyNvidiaKey(value) {
-  return /^nvapi-[A-Za-z0-9_-]{20,}$/.test(value || "");
+function isLikelyExtensionSecret(value) {
+  return typeof value === "string" && value.length >= 16;
 }
 
 async function getFastModeEnabled() {
@@ -107,13 +103,13 @@ async function optimizePrompt(inputPrompt, context = {}) {
     throw new Error("Prompt is empty");
   }
 
-  const apiKey = getBuiltInApiKey();
-  if (!apiKey) {
-    throw new Error("Missing built-in NVIDIA API key. Set BUILT_IN_NVIDIA_API_KEY in background.js.");
+  const extensionSecret = getBuiltInExtensionSecret();
+  if (!extensionSecret) {
+    throw new Error("Missing extension secret. Set BUILT_IN_EXTENSION_SECRET in background.js.");
   }
 
-  if (!isLikelyNvidiaKey(apiKey)) {
-    throw new Error("Invalid built-in NVIDIA API key format. Use only the raw nvapi-... token in background.js.");
+  if (!isLikelyExtensionSecret(extensionSecret)) {
+    throw new Error("Invalid extension secret format. Use the raw secret value in background.js.");
   }
 
   const fastModeEnabled = await getFastModeEnabled();
@@ -146,7 +142,7 @@ async function optimizePrompt(inputPrompt, context = {}) {
     ]
   };
 
-  const payload = await requestNvidiaRewrite(apiKey, requestBody, modeConfig.timeoutMs);
+  const payload = await requestProxyRewrite(extensionSecret, requestBody, modeConfig.timeoutMs);
 
   const text = payload?.choices?.[0]?.message?.content;
   if (!text || typeof text !== "string") {
@@ -162,17 +158,17 @@ async function optimizePrompt(inputPrompt, context = {}) {
   return optimized;
 }
 
-async function requestNvidiaRewrite(apiKey, requestBody, timeoutMs) {
+async function requestProxyRewrite(extensionSecret, requestBody, timeoutMs) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
   let response;
   try {
-    response = await fetch(API_URL, {
+    response = await fetch(VERCEL_PROXY_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`
+        "x-extension-secret": extensionSecret
       },
       body: JSON.stringify(requestBody),
       signal: controller.signal
@@ -190,9 +186,10 @@ async function requestNvidiaRewrite(apiKey, requestBody, timeoutMs) {
 
   if (!response.ok) {
     const message =
+      payload?.error ||
       payload?.error?.message ||
       payload?.detail ||
-      `NVIDIA API request failed (${response.status})`;
+      `Proxy request failed (${response.status})`;
     throw new Error(message);
   }
 
