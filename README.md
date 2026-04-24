@@ -2,10 +2,6 @@
 
 PromptPilot adds a floating optimize bubble beside prompt composers on ChatGPT, Claude, and Gemini. It rewrites your draft using NVIDIA Kimi 2.5.
 
-## Folder
-
-`/Users/charlietaylor/Documents/PromptPilot-Optimizer`
-
 ## setup
 
 1. Open `chrome://extensions`.
