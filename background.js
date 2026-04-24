@@ -1,6 +1,6 @@
 const MODEL = "moonshotai/kimi-k2.5";
 const VERCEL_PROXY_URL = "https://promptpilot-five.vercel.app/api/proxy";
-const BUILT_IN_EXTENSION_SECRET = "Debb123x!";
+const BUILT_IN_EXTENSION_SECRET = "dsdsdsdndcndceccwcascacascz";
 const STORAGE_FAST_MODE_KEY = "fastModeEnabled";
 
 const NORMAL_MODE_CONFIG = {
