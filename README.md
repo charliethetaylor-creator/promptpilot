@@ -1,6 +1,21 @@
 # PromptPilot Optimizer (Chrome Extension, MV3)
 
-PromptPilot adds a floating optimize bubble beside prompt composers on ChatGPT, Claude, and Gemini. It rewrites your draft using NVIDIA Kimi 2.5.
+an ai made for ai. it takes your prompt used in chatbots on the web and optimises it to give the best result.
+
+## what it can do 
+
+
+
+<img width="601" height="124" alt="Screenshot 2026-04-24 at 06 57 37" src="https://github.com/user-attachments/assets/cef86809-a847-4cd1-afa3-97ba6838c814" />
+
+
+<img width="195" height="262" alt="Screenshot 2026-04-24 at 07 02 01" src="https://github.com/user-attachments/assets/8b4bb877-d266-43a5-91b1-0d5acd54bcc8" />
+
+
+<img width="604" height="160" alt="Screenshot 2026-04-24 at 07 00 01" src="https://github.com/user-attachments/assets/1e91b40a-2639-42d9-9370-27bf773a28b5" />
+
+
+
 
 ## setup
 
