@@ -1,10 +1,6 @@
 # PromptPilot Optimizer (Chrome Extension, MV3)
 
-PromptPilot adds a floating optimize bubble beside prompt composers on ChatGPT, Claude, and Gemini. It rewrites your draft through a Vercel proxy that forwards to NVIDIA Kimi 2.5.
-
-## Folder
-
-`/Users/charlietaylor/Documents/PromptPilot-Optimizer`
+an ai made for ai. it takes your prompt used in chatbots on the web and optimises it to give the best result.
 
 ## Deploy Proxy (Vercel)
 
